@@ -13,9 +13,11 @@ $PYTHON_CMD -m venv "$IDO_DIR/venv"
 if [[ "$OSTYPE" == "msys" ]]; then
     # Windows Git Bash
     source "$IDO_DIR/venv/Scripts/activate"
+    PYTHON_CMD_VENV="$IDO_DIR/venv/Scripts/$PYTHON_CMD"
 else
     # POSIX (Linux, macOS, etc.)
     source "$IDO_DIR/venv/bin/activate"
+    PYTHON_CMD_VENV="$IDO_DIR/venv/bin/$PYTHON_CMD"
 fi
 
 # install dependencies from pyproject.toml
