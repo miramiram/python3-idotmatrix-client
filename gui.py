@@ -646,6 +646,7 @@ class DevicePage(QWidget):
         grid_layout = QGridLayout()
         self.action_buttons = []
         actions = [
+            ("Reset", self.reset),
             ("Clock Style", self.clock_control),
             ("Sync Time", self.sync_time),
             ("Set Time", self.set_time),
@@ -948,6 +949,12 @@ class DevicePage(QWidget):
         if file_path:
             self.run_command(["--address", self.mac_address, "--set-gif", file_path])
 
+    def reset(self):
+        self.run_command([
+            "--address", self.mac_address,
+            "--reset",
+        ])
+        
 
 
 
