@@ -21,4 +21,4 @@ else
 fi
 
 # install dependencies from pyproject.toml
-$PYTHON_CMD -m pip install "$IDO_DIR/"
+$PYTHON_CMD_VENV -m pip install "$IDO_DIR/"
