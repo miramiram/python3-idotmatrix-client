@@ -1,5 +1,5 @@
 # Starts by making sure the app is set up
-Write-Host "`n# SETTING UP python3-idotmatrix-client GUI #"
+Write-Host "`n# SETTING UP iDotMatrix #"
 Write-Host "NOTE: If something goes wrong, try running the script with an administrator instance of Powershell."
 
 
@@ -37,10 +37,20 @@ Write-Host "`n### OPENING/MAKING VENV & INSTALLING DEPENDENCIES ###"
 
 
 Write-Host "`n## CREATING LAUNCHER SHORTCUT ##"
-Write-Host "This script will now create the shortcut on your desktop and in Windows list of programs."
+Write-Host "This script will now create the shortcut on your desktop and in Windows list of programs if possible."
 
 $WshShell = New-Object -COMObject WScript.Shell
-$ShortcutPath = "$Home\Desktop\iDotMatrix GUI.lnk"
+
+$ShortcutRoot = "$Home\Desktop"
+$ShortcutRootFound = Test-Path -Path "$ShortcutRoot"
+if (-not $ShortcutRootFound) {
+    Write-Host "`nERROR: Your desktop couldn't be found by the script, the shortcut will be placed in the same folder as this script instead."
+    $ShortcutRoot = "$PSScriptRoot"
+}
+
+$ShortcutPath = "$ShortcutRoot\iDotMatrix GUI.lnk"
+
+
 $Shortcut = $WshShell.CreateShortcut("$ShortcutPath")
 $Shortcut.TargetPath = "%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe"
 
@@ -57,8 +67,12 @@ $Shortcut.WorkingDirectory = split-path -parent $MyInvocation.MyCommand.Definiti
 $Shortcut.Save()
 
 $ProgramsPath = "$env:USERPROFILE\AppData\Roaming\Microsoft\Windows\Start Menu\Programs"
-Write-Host "INFO: Copying shortcut to to $ProgramsPath"
-Copy-Item "$ShortcutPath" -Destination "$ProgramsPath"
+if (Test-Path -Path "$ProgramsPath") {
+    Write-Host "INFO: Copying shortcut to make it register as an app, to the path: $ProgramsPath"
+    Copy-Item "$ShortcutPath" -Destination "$ProgramsPath"
+} else {
+    Write-Host "ERROR: Couldn't find your program folder. You can copy the shortcut to this folder manually instead, the path should look like this, but possibly with a different drive letter: $ProgramsPath"
+}
 
 Write-Host "`n## FINISHED ##"
 
@@ -67,7 +81,7 @@ Write-Host "- If something went wrong with the shortcut, try running the script 
 Write-Host "- If some commands in the script fails, first re-run without a hidden terminal if you chose to hide it, to see the errors."
 Write-Host "- If that doesn't help, make sure you have Python installed, and see if you can open the GUI manually through powershell, by copying the commands in this file that start with `"python`"."
 Write-Host "`n### SUMMARY ###"
-Write-Host "A shortcut should now have been created on your desktop, and a copy of it added to $ProgramsPath to make the program searchable."
+Write-Host "A shortcut should now have been created on your desktop, and a copy of it added to $ProgramsPath to make the program searchable, unless the log above states otherwise."
 Write-Host "Try opening it, if the shortcut isn't there or nothing shows up, read the TROUBLESHOOTING section above."
 Write-Host "`n`n"
 
