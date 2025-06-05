@@ -713,7 +713,10 @@ class DevicePage(QWidget):
 
     def handle_ready_read(self):
         data = self.process.readAll()
-        stdout = bytes(data).decode("utf8").strip()
+        try:
+            stdout = bytes(data).decode("utf8").strip()
+        except Exception:
+            stdout = bytes(data).decode("latin1").strip()
        
         current_command = self.process.arguments()[2:]
         output_lines = stdout.splitlines()
@@ -1106,7 +1109,11 @@ class MainWindow(QWidget):
 
     def handle_ready_read(self):
         data = self.process.readAll()
-        stdout = bytes(data).decode("utf8")
+        try:
+            stdout = bytes(data).decode("utf8")
+        except Exception:
+            stdout = bytes(data).decode("latin1")
+
         self.output_str += stdout
         self.configuration_page.console_output.appendPlainText(stdout)
 
