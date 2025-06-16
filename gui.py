@@ -23,8 +23,8 @@ if sys.platform == 'win32':
     shell_cmd       = 'powershell.exe'
     shell_init_args = ['-File', f"{proj_dir}\\run_in_venv.ps1"]
 else:
-    shell_cmd       = 'sh'
-    shell_init_args = [f"{proj_dir}/run_in_venv.sh"]
+    shell_cmd       = 'bash'
+    shell_init_args = [f"{proj_dir}/run_in_venv.bash"]
 
 
 
