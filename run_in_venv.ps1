@@ -20,7 +20,13 @@ $originalPath = Get-Location
     $venvAlreadyExists = Test-Path -Path "$root\venv_windows\Scripts\Activate.ps1" -PathType Leaf
     if (-not $venvAlreadyExists) {
         Write-Host "Venv for Windows doesn't exist, creating it. "
-        python -m venv "$root\venv_windows"
+        if (Get-Command "py" -ErrorAction SilentlyContinue) {
+            py -m venv "$root\venv_windows"
+        } else {
+            # Some Python installations method might omit "py" by default, like Scoop when the post-install script isn't used.
+            python -m venv "$root\venv_windows"
+        }
+        
         if (-not $?){
             Write-Host "`nERROR: Failed to create venv, exiting program. Make sure Python is installed."
             Set-Location -Path $originalPath
@@ -40,8 +46,10 @@ $originalPath = Get-Location
         exit
     }
 
-    $py_cmd = "python"
-    if (Test-Path -Path "$root/venv_windows/Scripts/python3.exe" -PathType Leaf ){
+    $py_cmd = "py"
+    if       (Test-Path -Path "$root/venv_windows/Scripts/py.exe" -PathType Leaf){
+        $py_cmd = "$root/venv_windows/Scripts/py.exe"
+    } elseif (Test-Path -Path "$root/venv_windows/Scripts/python3.exe" -PathType Leaf ){
         $py_cmd = "$root/venv_windows/Scripts/python3.exe"
     } elseif (Test-Path -Path "$root/venv_windows/Scripts/python.exe" -PathType Leaf){
         $py_cmd = "$root/venv_windows/Scripts/python.exe"
