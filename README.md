@@ -1,6 +1,9 @@
-> [!NOTE]  
-> Due to a long-term health condition (post-COVID since almost three years), I am unable to continue developing this project. Although many amazing contributors have helped over the years, I am unsure when I will be able to resume work. This is my most popular project (over 300 stars!), and I hope others will continue to improve the client and library for various use cases, such as Home Assistant integration. Thank you for your understanding and support.
-
+> [!NOTE]
+> A note from the original maintainer derkalle4:
+> 
+> > Due to a long-term health condition (post-COVID since almost three years), I am unable to continue developing this project. Although many amazing contributors have helped over the years, I am unsure when I will be able to resume work. This is my most popular project (over 300 stars!), and I hope others will continue to improve the client and library for various use cases, such as Home Assistant integration. Thank you for your understanding and support.
+>
+> This fork isn't meant as a full continuation, I don't have the spare time to actively maintain this myself, but its open for PR's.
 <br/>
 <p align="center">
   <a href="https://github.com/derkalle4/python3-idotmatrix-client">
